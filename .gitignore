@@ -1,0 +1,20 @@
+# Credenciais
+.env
+
+# Dados (baixados do Drive / gerados pela extração)
+data/
+*.csv
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Ambiente virtual (se você criar um)
+.venv/
+venv/
+
+# Editor / SO
+.vscode/
+Thumbs.db
