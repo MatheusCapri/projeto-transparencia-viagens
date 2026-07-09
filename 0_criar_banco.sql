@@ -1,5 +1,5 @@
 -- criação database
--- DROP DATABASE IF EXISTS transparencia;
+DROP DATABASE IF EXISTS transparencia;
 CREATE DATABASE transparencia
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
@@ -12,7 +12,7 @@ CREATE TABLE raw_viagem (
     num_proposta					VARCHAR(20),
     situacao						VARCHAR(50),
     viagem_urgente					VARCHAR(5),
-    justificativa_urgencia_viagem	VARCHAR(255),
+    justificativa_urgencia_viagem	TEXT,
     cod_orgao_superior				VARCHAR(20),
     nome_orgao_superior				VARCHAR(255),
     cod_orgao_solicitante			VARCHAR(20),
@@ -21,7 +21,7 @@ CREATE TABLE raw_viagem (
     nome_viajante					VARCHAR(255),
     cargo							VARCHAR(255),
     funcao							VARCHAR(255),
-    descricao_funcao				VARCHAR(255),
+    descricao_funcao				TEXT,
     data_inicio						VARCHAR(20),
     data_fim						VARCHAR(20),
     destinos						VARCHAR(4000),
@@ -30,7 +30,7 @@ CREATE TABLE raw_viagem (
     valor_passagens					VARCHAR(20),
     valor_devolucao					VARCHAR(20),
     valor_outros_gastos				VARCHAR(20)
-);
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 -- raw_pagamento: copia fiel do CSV 2025_Pagamento.csv
 DROP TABLE IF EXISTS raw_pagamento;
@@ -45,7 +45,7 @@ CREATE TABLE raw_pagamento (
     nome_ug_pagadora			VARCHAR(255),
     tipo_pagamento				VARCHAR(50),
     valor						VARCHAR(20)
-);
+) ENGINE=InnoDB;
 
 -- raw_passagem: copia fiel do CSV 2025_Passagem.csv
 DROP TABLE IF EXISTS raw_passagem;
@@ -69,7 +69,7 @@ CREATE TABLE raw_passagem (
     taxa_servico				VARCHAR(20),
     data_emissao				VARCHAR(20),
     hora_emissao				VARCHAR(20)
-);
+) ENGINE=InnoDB;
 
 -- raw_trecho: copia fiel do CSV 2025_Trecho.csv
 DROP TABLE IF EXISTS raw_trecho;
@@ -88,7 +88,7 @@ CREATE TABLE raw_trecho (
     meio_transporte			VARCHAR(50),
     numero_diarias			VARCHAR(20),
     missao					VARCHAR(255)
-);
+) ENGINE=InnoDB;
 
 -- silver_viagem: criada a partir da raw_viagem
 DROP TABLE IF EXISTS silver_viagem;
@@ -113,7 +113,7 @@ CREATE TABLE silver_viagem (
     duracao_dias					INT,
     
     CONSTRAINT chk_valor_diarias      	CHECK (valor_diarias >= 0) 
-);
+) ENGINE=InnoDB ROW_FORMAT=DYNAMIC;
 
 
 -- silver_pagamento: criada a partir da raw_pagamento
@@ -131,7 +131,7 @@ CREATE TABLE silver_pagamento (
         FOREIGN KEY (id_viagem)
         REFERENCES silver_viagem (id_viagem),
 	CONSTRAINT chk_valor_pgto      	CHECK (valor >= 0) 
-);
+) ENGINE=InnoDB;
 
 
 -- silver_passagem: criada a partir da raw_passagem
@@ -155,7 +155,7 @@ CREATE TABLE silver_passagem (
         REFERENCES silver_viagem (id_viagem),
 	CONSTRAINT chk_valor_passagem      	CHECK (valor_passagem >= 0), 
 	CONSTRAINT chk_tx_serv		      	CHECK (taxa_servico >= 0) 
-);
+) ENGINE=InnoDB;
 
 
 -- silver_trecho: criada a partir da raw_trecho
@@ -178,4 +178,4 @@ CREATE TABLE silver_trecho (
         REFERENCES silver_viagem (id_viagem),
 	CONSTRAINT chk_nro_diarias      	CHECK (numero_diarias >= 0),
 	CONSTRAINT uk_trecho_sequencia UNIQUE (id_viagem, sequencia_trecho)	
-);
+) ENGINE=InnoDB;
