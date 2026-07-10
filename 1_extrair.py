@@ -16,10 +16,15 @@ import banco
 # Download do arquivo do Drive usando 'gdown'
 # ---------------------------------------------------------------------------
 def baixar_zip():
-    """Faz o download do arquivo.zip direto do Drive """
+    """Faz o download do arquivo.zip direto do Drive (so se ainda nao existir em data/)."""
     config.PASTA_DADOS.mkdir(parents=True, exist_ok=True)
     caminho_zip = config.PASTA_DADOS / "dados.zip"
-    
+
+    if caminho_zip.exists():
+        print("[1/3] O arquivo ja foi baixado antes - pulando o download.")
+        return caminho_zip
+
+    print("[1/3] Baixando o arquivo do Google Drive...")
     try:
         gdown.download(id=config.DRIVE_FILE_ID, output=str(caminho_zip))
     except Exception as erro:
@@ -27,8 +32,8 @@ def baixar_zip():
             f"Nao foi possivel baixar o arquivo do Google Drive "
             f"(ID: {config.DRIVE_FILE_ID}). Verifique sua conexao com a "
             f"internet e se o ID esta correto no config.py. Detalhe: {erro}"
-    )
-    
+        )
+
     return caminho_zip
 
 
