@@ -1,0 +1,4 @@
+gdown==6.1.0
+pandas==3.0.0
+mysql-connector-python==9.7.0
+matplotlib==3.10.8
