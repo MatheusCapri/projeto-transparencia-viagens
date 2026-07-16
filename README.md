@@ -39,18 +39,18 @@ Construir um pipeline automatizado que baixa, limpa, organiza e analisa os dados
 
 ## Arquitetura do Pipeline (Medallion)
 
-O projeto segue a Arquitetura Medallion, dividida em 3 camadas, cada uma em um arquivo separado que roda em ordem:
+O projeto segue a Arquitetura Medallion, dividida em 3 camadas, organizadas em pastas separadas por responsabilidade (ingestão, pipeline de transformação, SQL e análise). Essa estrutura segue o modelo de Engenharia de Dados fornecido como referência, já que esse projeto é um pipeline automatizado de ponta a ponta, e não uma análise pontual.
 
-### `0_criar_banco.sql`
+### `sql/0_criar_banco.sql`
 Cria o banco de dados e as 8 tabelas: 4 na camada Raw (cópia fiel dos CSVs, tudo texto) e 4 na camada Silver (dados já limpos e tipados, com chave primaria, chave estrangeira e restrições).
 
-### `1_extrair.py` - Camada Raw
+### `ingestion/1_extrair.py` - Camada Raw
 Baixa o arquivo zip do Google Drive automaticamente (usando a biblioteca gdown), le os 4 CSVs de dentro do zip e carrega tudo nas tabelas Raw, sem alteração no dado original.
 
-### `2_transformar.py` - Camada Silver
+### `pipelines/2_transformar.py` - Camada Silver
 Copia os dados da Raw para a Silver, convertendo texto para os tipos corretos, respeitando as chaves estrangeiras e calculando as colunas `valor_total` e `duracao_dias`.
 
-### `3_analise.ipynb` - Camada Gold
+### `notebooks/3_analise.ipynb` - Camada Gold
 Responde as perguntas de negócio com consultas SQL, tabelas e gráficos. Também cria uma camada Gold agregada (com JOIN e GROUP BY), salva como tabela e como VIEW no MySQL.
 
 ---
@@ -60,10 +60,10 @@ Responde as perguntas de negócio com consultas SQL, tabelas e gráficos. També
 1. Clone este repositório
 2. Instale as dependências: `pip install -r requirements.txt`
 3. Copie o arquivo `.env.example` para `.env` e preencha com as suas credenciais do MySQL
-4. Rode o script `0_criar_banco.sql` no MySQL Workbench (ou outro cliente de sua preferência)
-5. Rode `python 1_extrair.py` no terminal
-6. Rode `python 2_transformar.py` no terminal
-7. Abra o `3_analise.ipynb` no VS Code (ou Jupyter) e execute as células em ordem
+4. Rode o script `sql/0_criar_banco.sql` no MySQL Workbench (ou outro de sua preferência)
+5. Rode `python ingestion/1_extrair.py` no terminal
+6. Rode `python pipelines/2_transformar.py` no terminal
+7. Abra o `notebooks/3_analise.ipynb` no VS Code (ou Jupyter) e execute as células em ordem
 
 ---
 

@@ -4,6 +4,10 @@
 Pega os dados "sujos" da camada RAW (tudo texto) e preenche as tabelas SILVER
 (ja criadas, com PK/FK, pelo 0_criar_banco.txt) com os dados limpos e tipados."""
 
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
 import banco
 
 # Esvaziar as tabelas SILVER (idempotencia).
