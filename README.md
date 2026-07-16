@@ -59,11 +59,18 @@ Responde as perguntas de negócio com consultas SQL, tabelas e gráficos. També
 
 1. Clone este repositório
 2. Instale as dependências: `pip install -r requirements.txt`
-3. Copie o arquivo `.env.example` para `.env` e preencha com as suas credenciais do MySQL
-4. Rode o script `sql/0_criar_banco.sql` no MySQL Workbench (ou outro de sua preferência)
-5. Rode `python ingestion/1_extrair.py` no terminal
-6. Rode `python pipelines/2_transformar.py` no terminal
-7. Abra o `notebooks/3_analise.ipynb` no VS Code (ou Jupyter) e execute as células em ordem
+3. Crie um arquivo `.env` na raiz do projeto com as suas credenciais do MySQL, no seguinte formato:
+   ```
+   MYSQL_HOST=localhost
+   MYSQL_PORT=3306
+   MYSQL_USER=root
+   MYSQL_PASSWORD=sua_senha
+   MYSQL_DATABASE=transparencia
+   ```
+4. Rode o script `0_criar_banco.sql` no MySQL Workbench (ou outro cliente de sua preferência)
+5. Rode `python 1_extrair.py` no terminal
+6. Rode `python 2_transformar.py` no terminal
+7. Abra o `3_analise.ipynb` no VS Code (ou Jupyter) e execute as células em ordem
 
 ---
 
