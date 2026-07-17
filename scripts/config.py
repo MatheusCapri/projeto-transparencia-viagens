@@ -10,7 +10,7 @@ from pathlib import Path
 # Caminhos do projeto
 # ---------------------------------------------------------------------------
 # PASTA_RAIZ = .../desafio_transparencia (a pasta deste arquivo)
-PASTA_RAIZ = Path(__file__).resolve().parent
+PASTA_RAIZ = Path(__file__).resolve().parent.parent
 # onde o .zip e os .csv ficam (ignorada pelo Git)
 PASTA_DADOS = PASTA_RAIZ / "data"
 

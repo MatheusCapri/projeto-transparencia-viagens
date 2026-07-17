@@ -6,7 +6,7 @@ Pega os dados "sujos" da camada RAW (tudo texto) e preenche as tabelas SILVER
 
 import sys
 from pathlib import Path
-sys.path.append(str(Path(__file__).resolve().parent.parent))
+sys.path.append(str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import banco
 
